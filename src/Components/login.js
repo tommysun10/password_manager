@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-
+// TODO
+// Implement user services for login validation
+//      - Implement session
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
