@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import UserService from '../Services/UserService'
 
 // TODO
 // Check username for existing
@@ -30,6 +31,7 @@ export default class Register extends React.Component {
             emailNotValid: false,
             badDOB: false,
         }
+        this.userService = UserService.instance;
     }
 
     // Sets the field on change
@@ -134,12 +136,36 @@ export default class Register extends React.Component {
 
         // TODO check if username taken
         // userNameTaken: false,
+        if (u.length > 0) {
+            this.userService.findUserByUsername(u)
+                .then((response) => {
+                    if (response !== null) {
+                        this.setState({userNameTaken: true})
+                        stop = true
+                    }
+                })
+        }
 
         // TODO check if email is valid
+        // Use API 
         // emailNotValid: false,
 
         if (!stop) {
+            const user = {
+                userName: u,
+                password: p1,
+                firstName: f,
+                lastName: l,
+                email: e,
+                dob: d
+            }
             // Create the user and redirect
+            this.userService.createUser(user)
+                .then(user => {
+                    if (user.userName) {
+                        window.location ='/login';
+                    }
+                })
         }
     }
 
