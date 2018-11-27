@@ -59,7 +59,7 @@ export default class Login extends React.Component {
     checkUsername = () => {
         if (this.state.usernameEmpty) {
             return (
-                <span style={{ color: 'red' }}>Please enter a username</span>
+                <span style={{ color: 'red' }}><br/>Please enter a username</span>
             )
         }
     }
@@ -68,7 +68,7 @@ export default class Login extends React.Component {
     checkPassword = () => {
         if (this.state.passwordEmpty) {
             return (
-                <span style={{ color: 'red' }}>Please enter a password</span>
+                <span style={{ color: 'red' }}><br/>Please enter a password</span>
             )
         }
     }
