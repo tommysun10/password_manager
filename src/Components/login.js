@@ -1,5 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
+import UserService from '../Services/UserService'
+
 // TODO
 // Implement user services for login validation
 //      - Implement session
@@ -13,7 +15,9 @@ export default class Login extends React.Component {
             },
             usernameEmpty: false,
             passwordEmpty: false,
-        }
+            badCreds: false
+        };
+        this.userService = UserService.instance;
     }
 
     // Updates state for user login forms
@@ -40,6 +44,7 @@ export default class Login extends React.Component {
         this.setState({
             usernameEmpty: false,
             passwordEmpty: false,
+            badCreds: false
         })
 
         if (this.state.user.username === "") {
@@ -51,8 +56,14 @@ export default class Login extends React.Component {
             return;
         }
 
-        // this.userServices.login(creds)
-        //      .then(user => )
+        this.userService.login(this.state.user)
+             .then(user => {
+                 if (null) {
+                     window.location ='/register';
+                 } else {
+                     this.setState({badCreds: true})
+                 }
+             } )
 
     }
 
@@ -69,6 +80,15 @@ export default class Login extends React.Component {
         if (this.state.passwordEmpty) {
             return (
                 <span style={{ color: 'red' }}><br/>Please enter a password</span>
+            )
+        }
+    }
+
+    // Puts text to notifiy the user of bad credentials
+    badCreds = () => {
+        if (this.state.badCreds) {
+            return (
+                <span style={{ color: 'red' }}><br/> Bad username or password </span>
             )
         }
     }
@@ -117,10 +137,10 @@ export default class Login extends React.Component {
                     <div className="col-sm-10">
                         <button className="btn btn-success"
                             type="button"
-                            onClick={this.login}
-                        >
+                            onClick={this.login}>
                             Sign In
                         </button>
+                        {this.badCreds()}
                     </div>
                 </div>
 

@@ -18,7 +18,7 @@ export default class UserService {
 
     // Login and sets the credentials into cookies
     login(credentials) {
-        return fetch(this.SERVER_URL + '/login', {
+        return fetch(SERVER_URL + '/login', {
             method: 'POST',
             body: JSON.stringify(credentials),
             headers: {
@@ -26,19 +26,19 @@ export default class UserService {
             },
             credentials: 'include'
         }).then(response => {
-            response.json()
+            return response.json()
         })
     }
 
     // Given an ID, return the user
     findUserById(userId) {
-        return fetch(this.SERVER_URL + '/userId')
+        return fetch(SERVER_URL + '/userId')
             .then(response => response.json())
     }
 
     // Creates a user
     createUser(user) {
-        return fetch(this.SERVER_URL + "/register", {
+        return fetch(SERVER_URL + "/register", {
             body: JSON.stringify(user),
             credentials: "include", // include, same-origin, *omit
             method: "post",
@@ -50,9 +50,9 @@ export default class UserService {
 
     // Updates a user
     updateUser(user) {
-		return fetch(this.SERVER_URL + "/" + user.id, {
+		return fetch(SERVER_URL + "/" + user.id, {
 			method: "put",
-			body: JSON.stringify(body),
+			body: JSON.stringify(user),
 			headers: {
 				"content-type": "application/json"
 			},
@@ -62,7 +62,7 @@ export default class UserService {
     
     // Logs the user out
     logout() {
-		return fetch(this.SERVER_URL + "/logout", {
+		return fetch(SERVER_URL + "/logout", {
 			method: "POST",
 			credentials:"include"
 		})
@@ -70,7 +70,7 @@ export default class UserService {
     
     // Returns the current user if someone is logged in
     getProfile() {
-        return fetch(this.SERVER_URL + '/profile', {
+        return fetch(SERVER_URL + '/profile', {
             credentials: 'include'
             }
         ).then(response => {
@@ -80,7 +80,7 @@ export default class UserService {
 
     // Finds if a user exists 
   findUserByUsername(username){
-    return fetch(this.SERVER_URL + '/username/' + username)
+    return fetch(SERVER_URL + '/username/' + username)
         .then(response => {
             response.json()
         }).catch(err => {
