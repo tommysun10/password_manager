@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import UserService from '../Services/UserService'
 
 // TODO
@@ -56,21 +56,21 @@ export default class Login extends React.Component {
             return;
         }
 
-        this.userService.login(this.state.user)
-             .then(user => {
-                 if (null) {
-                     window.location ='/register';
-                 } else {
-                     this.setState({badCreds: true})
-                 }
-             } )
-
+        return this.userService.login(this.state.user)
+            .then(user => {
+                if (user !== null) {
+                    alert("LOGIN SUCCESFUL")
+                    //window.location ='/register';
+                } else {
+                    this.setState({ badCreds: true })
+                }
+            })
     }
 
     checkUsername = () => {
         if (this.state.usernameEmpty) {
             return (
-                <span style={{ color: 'red' }}><br/>Please enter a username</span>
+                <span style={{ color: 'red' }}><br />Please enter a username</span>
             )
         }
     }
@@ -79,7 +79,7 @@ export default class Login extends React.Component {
     checkPassword = () => {
         if (this.state.passwordEmpty) {
             return (
-                <span style={{ color: 'red' }}><br/>Please enter a password</span>
+                <span style={{ color: 'red' }}><br />Please enter a password</span>
             )
         }
     }
@@ -88,7 +88,7 @@ export default class Login extends React.Component {
     badCreds = () => {
         if (this.state.badCreds) {
             return (
-                <span style={{ color: 'red' }}><br/> Bad username or password </span>
+                <span style={{ color: 'red' }}><br /> Bad username or password </span>
             )
         }
     }

@@ -1,6 +1,6 @@
 let _singleton = Symbol();
 
-const SERVER_URL = 'http://localhost:3000/api';
+const SERVER_URL = 'http://localhost:4000/api';
 
 export default class UserService {
 
@@ -19,14 +19,19 @@ export default class UserService {
     // Login and sets the credentials into cookies
     login(credentials) {
         return fetch(SERVER_URL + '/login', {
-            method: 'POST',
             body: JSON.stringify(credentials),
+            credentials: "include",
+            method: "post",
             headers: {
-                'Content-Type': 'application/json'
+                'content-type': 'application/json'
             },
-            credentials: 'include'
         }).then(response => {
-            return response.json()
+            console.log(response)
+            if (response.status === 200) {
+                return response.json()
+            } else {
+                return null;      
+            }
         })
     }
 
@@ -50,41 +55,41 @@ export default class UserService {
 
     // Updates a user
     updateUser(user) {
-		return fetch(SERVER_URL + "/" + user.id, {
-			method: "put",
-			body: JSON.stringify(user),
-			headers: {
-				"content-type": "application/json"
-			},
-			credentials: "include"
-		}).then(response => response.json());
+        return fetch(SERVER_URL + "/" + user.id, {
+            method: "put",
+            body: JSON.stringify(user),
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: "include"
+        }).then(response => response.json());
     }
-    
+
     // Logs the user out
     logout() {
-		return fetch(SERVER_URL + "/logout", {
-			method: "POST",
-			credentials:"include"
-		})
+        return fetch(SERVER_URL + "/logout", {
+            method: "POST",
+            credentials: "include"
+        })
     }
-    
+
     // Returns the current user if someone is logged in
     getProfile() {
         return fetch(SERVER_URL + '/profile', {
             credentials: 'include'
-            }
+        }
         ).then(response => {
             response.json()
         })
     }
 
     // Finds if a user exists 
-  findUserByUsername(username){
-    return fetch(SERVER_URL + '/username/' + username)
-        .then(response => {
-            response.json()
-        }).catch(err => {
-            return null;
-        })
-}
+    findUserByUsername(username) {
+        return fetch(SERVER_URL + '/username/' + username)
+            .then(response => {
+                response.json()
+            }).catch(err => {
+                return null;
+            })
+    }
 }

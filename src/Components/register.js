@@ -134,17 +134,17 @@ export default class Register extends React.Component {
             stop = true
         }
 
-        // TODO check if username taken
-        // userNameTaken: false,
-        if (u.length > 0) {
-            this.userService.findUserByUsername(u)
-                .then((response) => {
-                    if (response !== null) {
-                        this.setState({userNameTaken: true})
-                        stop = true
-                    }
-                })
-        }
+        // // TODO check if username taken
+        // // userNameTaken: false,
+        // if (u.length > 0) {
+        //     this.userService.findUserByUsername(u)
+        //         .then((response) => {
+        //             if (response !== null) {
+        //                 this.setState({userNameTaken: true})
+        //                 stop = true
+        //             }
+        //         })
+        // }
 
         // TODO check if email is valid
         // Use API 
@@ -152,7 +152,7 @@ export default class Register extends React.Component {
 
         if (!stop) {
             const user = {
-                userName: u,
+                username: u,
                 password: p1,
                 firstName: f,
                 lastName: l,
