@@ -117,9 +117,9 @@ export default class Profile extends React.Component {
             // Create the user and redirect
             this.userService.updateUser(user)
                 .then(user => {
-                    console.log(user)
                     if (user) {
                         this.setState({ success: true })
+                        this.setState({firstNameReadOnly: f})
                     }
                 })
         }
