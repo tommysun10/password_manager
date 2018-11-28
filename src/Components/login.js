@@ -59,8 +59,7 @@ export default class Login extends React.Component {
         return this.userService.login(this.state.user)
             .then(user => {
                 if (user !== null) {
-                    alert("LOGIN SUCCESFUL")
-                    //window.location ='/register';
+                    this.props.history.push('/profile')
                 } else {
                     this.setState({ badCreds: true })
                 }
@@ -96,7 +95,7 @@ export default class Login extends React.Component {
     render() {
         return (
             <div className="container col-md-6 col-md-offset-3" >
-                <h2>Sign In</h2>
+                <h1>Sign In</h1>
 
                 {/* Username */}
                 <div className="form-group row">

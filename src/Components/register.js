@@ -136,15 +136,15 @@ export default class Register extends React.Component {
 
         // // TODO check if username taken
         // // userNameTaken: false,
-        // if (u.length > 0) {
-        //     this.userService.findUserByUsername(u)
-        //         .then((response) => {
-        //             if (response !== null) {
-        //                 this.setState({userNameTaken: true})
-        //                 stop = true
-        //             }
-        //         })
-        // }
+        if (u.length > 0) {
+            this.userService.findUserByUsername(u)
+                .then((response) => {
+                    if (response !== null) {
+                        this.setState({userNameTaken: true})
+                        stop = true
+                    }
+                })
+        }
 
         // TODO check if email is valid
         // Use API 
@@ -157,16 +157,19 @@ export default class Register extends React.Component {
                 firstName: f,
                 lastName: l,
                 email: e,
-                dob: d
+                dob: d,
+                locations:[],
+                passwords:[]
             }
             // Create the user and redirect
             this.userService.createUser(user)
                 .then(user => {
                     if (user.userName) {
-                        window.location ='/login';
+                        this.props.history.push('/profile')
                     }
                 })
         }
+        return;
     }
 
 
@@ -269,7 +272,7 @@ export default class Register extends React.Component {
     render() {
         return (
             <div className="container col-md-6 col-md-offset-3" >
-                <h2>Register</h2>
+                <h1>Register</h1>
 
                 {/* Username */}
                 <div className="form-group row">

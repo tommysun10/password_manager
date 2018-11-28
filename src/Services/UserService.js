@@ -17,7 +17,7 @@ export default class UserService {
     }
 
     // Login and sets the credentials into cookies
-    login(credentials) {
+    login = (credentials) => {
         return fetch(SERVER_URL + '/login', {
             body: JSON.stringify(credentials),
             credentials: "include",
@@ -26,7 +26,6 @@ export default class UserService {
                 'content-type': 'application/json'
             },
         }).then(response => {
-            console.log(response)
             if (response.status === 200) {
                 return response.json()
             } else {
@@ -36,13 +35,13 @@ export default class UserService {
     }
 
     // Given an ID, return the user
-    findUserById(userId) {
+    findUserById = (userId) => {
         return fetch(SERVER_URL + '/userId')
             .then(response => response.json())
     }
 
     // Creates a user
-    createUser(user) {
+    createUser = (user) => {
         return fetch(SERVER_URL + "/register", {
             body: JSON.stringify(user),
             credentials: "include", // include, same-origin, *omit
@@ -54,7 +53,7 @@ export default class UserService {
     }
 
     // Updates a user
-    updateUser(user) {
+    updateUser = (user) => {
         return fetch(SERVER_URL + "/" + user.id, {
             method: "put",
             body: JSON.stringify(user),
@@ -66,30 +65,37 @@ export default class UserService {
     }
 
     // Logs the user out
-    logout() {
+    logout = () => {
         return fetch(SERVER_URL + "/logout", {
             method: "POST",
             credentials: "include"
         })
     }
 
-    // Returns the current user if someone is logged in
-    getProfile() {
+    getCurrentUser = () => {
         return fetch(SERVER_URL + '/profile', {
             credentials: 'include'
         }
         ).then(response => {
-            response.json()
+            if (response.status === 200) {
+                return response.json()
+            } else {
+                return null
+            }
         })
     }
 
     // Finds if a user exists 
-    findUserByUsername(username) {
-        return fetch(SERVER_URL + '/username/' + username)
+    findUserByUsername = (username)  => {
+        return fetch(SERVER_URL + '/user/username', {
+            method: 'post'
+        })
             .then(response => {
-                response.json()
-            }).catch(err => {
-                return null;
+                if (response.status === 200) {
+                    return null
+                } else {
+                    return response.json();
+                }
             })
     }
 }
