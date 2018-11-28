@@ -54,7 +54,7 @@ export default class UserService {
 
     // Updates a user
     updateUser = (user) => {
-        return fetch(SERVER_URL + "/" + user.id, {
+        return fetch(SERVER_URL + "/user/update", {
             method: "put",
             body: JSON.stringify(user),
             headers: {

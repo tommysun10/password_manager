@@ -147,4 +147,16 @@ export default class UserLogic {
         }
     }
 
+    // Returns JSX to show a successful update
+    successfulUpdate = (state) => {
+        if (state) {
+            return (
+                <span style={{ color: 'green' }}>
+                <br />
+                Update successful!!
+        </span>
+            )
+        }
+    }
+
 }

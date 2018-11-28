@@ -143,6 +143,7 @@ export default class Register extends React.Component {
                     if (response !== null) {
                         this.setState({userNameTaken: true})
                         stop = true
+                        return;
                     }
                 })
         }
