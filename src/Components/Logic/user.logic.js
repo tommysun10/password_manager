@@ -54,6 +54,7 @@ export default class UserLogic {
         }
     }
 
+    // Returns JSX to show a password confirmation is empty
     password2Empty = (state) => {
         if (state) {
             return (
@@ -65,6 +66,7 @@ export default class UserLogic {
         }
     }
 
+    // Returns JSX to show passwords do not match
     passwordNoMatch = (state) => {
         if (state) {
             return (
@@ -76,7 +78,7 @@ export default class UserLogic {
         }
     }
 
-    // Puts text to notifiy the user of bad credentials
+    // Returns JSX to show a lack of user with given creds
     badCreds = (state) => {
         if (state) {
             return (
@@ -85,7 +87,7 @@ export default class UserLogic {
         }
     }
 
-
+    // Returns JSX to show an empty first name
     firstNameEmpty = (state) => {
         if (state) {
             return (
@@ -97,6 +99,7 @@ export default class UserLogic {
         }
     }
 
+    // Returns JSX to show an empty last name
     lastNameEmpty = (state) => {
         if (state) {
             return (
@@ -108,6 +111,7 @@ export default class UserLogic {
         }
     }
 
+    // Returns JSX to show an empty email
     emailEmpty = (state) => {
         if (state) {
             return (
@@ -119,6 +123,7 @@ export default class UserLogic {
         }
     }
 
+    // Returns JSX to show an invalid email
     emailNotValid = (state) => {
         if (state) {
             return (
@@ -130,6 +135,7 @@ export default class UserLogic {
         }
     }
 
+    // Returns JSX to show an invalid date of birthday
     dobNotValid = (state) => {
         if (state) {
             return (
