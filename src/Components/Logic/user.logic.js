@@ -152,7 +152,6 @@ export default class UserLogic {
         if (state) {
             return (
                 <span style={{ color: 'green' }}>
-                <br />
                 Update successful!!
         </span>
             )

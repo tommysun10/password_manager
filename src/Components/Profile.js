@@ -14,7 +14,7 @@ export default class Profile extends React.Component {
             password: '',
             password2: '',
             firstNameReadOnly: '',
-            firstName:'',
+            firstName: '',
             lastName: '',
             email: '',
             dob: '',
@@ -110,43 +110,44 @@ export default class Profile extends React.Component {
                 lastName: l,
                 email: e,
                 dob: d,
-                locations:this.state.locations,
-                passwords:this.state.passwords
+                locations: this.state.locations,
+                passwords: this.state.passwords
             }
 
             // Create the user and redirect
             this.userService.updateUser(user)
                 .then(user => {
-                    if (user.userName) {
-                        this.state.setState({success: true})
+                    console.log(user)
+                    if (user) {
+                        this.setState({ success: true })
                     }
                 })
         }
         return;
     }
-    
+
     setPassword = (event) => {
-        this.setState({password: event.target.value})
+        this.setState({ password: event.target.value })
     }
 
     setPassword2 = (event) => {
-        this.setState({password2: event.target.value})
+        this.setState({ password2: event.target.value })
     }
 
     setFirstName = (event) => {
-        this.setState({firstName: event.target.value})
+        this.setState({ firstName: event.target.value })
     }
 
     setLastName = (event) => {
-        this.setState({lastName: event.target.value})
+        this.setState({ lastName: event.target.value })
     }
 
     setEmail = (event) => {
-        this.setState({email: event.target.value})
+        this.setState({ email: event.target.value })
     }
 
     setDOB = (event) => {
-        this.setState({dob: event.target.value})
+        this.setState({ dob: event.target.value })
     }
 
     componentDidMount = () => {
@@ -272,7 +273,7 @@ export default class Profile extends React.Component {
                         htmlFor="email">
                         Email &nbsp;
                     {this.userLogic.emailEmpty(this.state.emailEmpty)}
-                    {this.userLogic.emailNotValid(this.state.emailNotValid)}
+                        {this.userLogic.emailNotValid(this.state.emailNotValid)}
                     </label>
 
                     <div className="col-sm-12">
@@ -306,6 +307,7 @@ export default class Profile extends React.Component {
                 {/* Update */}
                 <div className="form-group row">
                     <div className="col-sm-12">
+                        {this.userLogic.successfulUpdate(this.state.success)}
                         <button className="btn btn-success btn-block"
                             type="button"
                             onClick={this.update}
