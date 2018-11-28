@@ -85,6 +85,19 @@ export default class UserService {
         })
     }
 
+    isUserLoggedIn = () => {
+        return fetch(SERVER_URL + '/currentUser', {
+            credentials: 'include'
+        }
+        ).then(response => {
+            if (response.status === 200) {
+                return response.json()
+            } else {
+                return null
+            }
+        })
+    }
+
     // Finds if a user exists 
     findUserByUsername = (username)  => {
         return fetch(SERVER_URL + '/user/username', {
