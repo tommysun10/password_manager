@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import UserService from '../Services/UserService'
+import UserLogic from './Logic/user.logic';
 
 // TODO
 // Check username for existing
@@ -22,7 +23,7 @@ export default class Register extends React.Component {
             dob: '',
             usernameEmpty: false,
             userNameTaken: false,
-            passwordEmpty: false,
+            passwordBad: false,
             password2Empty: false,
             passwordNoMatch: false,
             firstNameEmpty: false,
@@ -32,6 +33,7 @@ export default class Register extends React.Component {
             badDOB: false,
         }
         this.userService = UserService.instance;
+        this.userLogic = UserLogic.instance;
     }
 
     // Sets the field on change
@@ -67,7 +69,7 @@ export default class Register extends React.Component {
         this.setState({
             usernameEmpty: false,
             userNameTaken: false,
-            passwordEmpty: false,
+            passwordBad: false,
             password2Empty: false,
             passwordNoMatch: false,
             firstNameEmpty: false,
@@ -81,7 +83,6 @@ export default class Register extends React.Component {
 
     // Verify all fields
     verifyFields = () => {
-        console.log(this.state)
         this.reset()
         const u = this.state.username
         const p1 = this.state.password
@@ -99,7 +100,7 @@ export default class Register extends React.Component {
 
         if ((p1.length <= 6 || p1.length >= 12)
             || p1.match(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/)) {
-            this.setState({ passwordEmpty: true })
+            this.setState({ passwordBad: true })
             stop = true
         }
 
@@ -172,103 +173,6 @@ export default class Register extends React.Component {
         return;
     }
 
-
-
-
-    // Check non-empty
-    // Check allowed (not taken, follows rules, valid)
-    usernameErrors = () => {
-        if (this.state.usernameEmpty) {
-            return (
-                <span style={{ color: 'red' }}><br />Please enter a username</span>
-            )
-        } else if (this.state.userNameTaken) {
-            return (
-                <span style={{ color: 'red' }}><br />Username is taken</span>
-            )
-        }
-    }
-
-    password1Errors = () => {
-        if (this.state.passwordEmpty) {
-            return (
-                <span style={{ color: 'red' }}>
-                    <br />
-                    Password must contain 6 to 12 characters, a letter, number, and special character
-                </span>
-            )
-        }
-    }
-
-    password2Errors = () => {
-        if (this.state.password2Empty) {
-            return (
-                <span style={{ color: 'red' }}>
-                    <br />
-                    Please confirm your password
-                </span>
-            )
-        } else if (this.state.passwordNoMatch) {
-            return (
-                <span style={{ color: 'red' }}>
-                    <br />
-                    Your passwords must match
-        </span>
-            )
-        }
-    }
-
-    firstNameErrors = () => {
-        if (this.state.firstNameEmpty) {
-            return (
-                <span style={{ color: 'red' }}>
-                    <br />
-                    Please enter your first name
-                </span>
-            )
-        }
-    }
-
-    lastNameErrors = () => {
-        if (this.state.lastNameEmpty) {
-            return (
-                <span style={{ color: 'red' }}>
-                    <br />
-                    Please enter your last name
-                </span>
-            )
-        }
-    }
-
-    emailErrors = () => {
-        if (this.state.emailEmpty) {
-            return (
-                <span style={{ color: 'red' }}>
-                    <br />
-                    Please enter your email
-                </span>
-            )
-        } else if (this.state.emailNotValid) {
-            return (
-                <span style={{ color: 'red' }}>
-                    <br />
-                    Please enter a valid email
-            </span>
-            )
-        }
-    }
-
-    dobErrors = () => {
-        if (this.state.badDOB) {
-            return (
-                <span style={{ color: 'red' }}>
-                    <br />
-                    Please enter a valid date of birth
-            </span>
-            )
-        }
-    }
-
     render() {
         return (
             <div className="container col-md-6 col-md-offset-3" >
@@ -279,7 +183,8 @@ export default class Register extends React.Component {
                     <label className="control-label col-12"
                         htmlFor="username">
                         Username &nbsp;
-                        {this.usernameErrors()}
+                        {this.userLogic.usernameEmpty(this.state.usernameEmpty)}
+                        {this.userLogic.usernameTaken(this.state.usernameTaken)}
                     </label>
 
                     <div className="col-sm-12">
@@ -296,7 +201,7 @@ export default class Register extends React.Component {
                     <label className="control-label col-12"
                         htmlFor="password">
                         Password &nbsp;
-                        {this.password1Errors()}
+                        {this.userLogic.passwordBad(this.state.passwordBad)}
                     </label>
 
                     <div className="col-sm-12">
@@ -314,7 +219,8 @@ export default class Register extends React.Component {
                     <label className="control-label col-12"
                         htmlFor="confirm-password">
                         Confirm Password &nbsp;
-                        {this.password2Errors()}
+                        {this.userLogic.password2Empty(this.state.password2Empty)}
+                        {this.userLogic.passwordNoMatch(this.state.passwordNoMatch)}
                     </label>
 
                     <div className="col-sm-12">
@@ -332,7 +238,7 @@ export default class Register extends React.Component {
                     <label className="control-label col-12"
                         htmlFor="first-name">
                         First Name &nbsp;
-                        {this.firstNameErrors()}
+                        {this.userLogic.firstNameEmpty(this.state.firstNameEmpty)}
                     </label>
 
                     <div className="col-sm-12">
@@ -349,7 +255,7 @@ export default class Register extends React.Component {
                     <label className="control-label col-12"
                         htmlFor="last-name">
                         Last Name &nbsp;
-                        {this.lastNameErrors()}
+                        {this.userLogic.lastNameEmpty(this.state.lastNameEmpty)}
                     </label>
 
                     <div className="col-sm-12">
@@ -366,7 +272,8 @@ export default class Register extends React.Component {
                     <label className="control-label col-12"
                         htmlFor="email">
                         Email &nbsp;
-                        {this.emailErrors()}
+                        {this.userLogic.emailEmpty(this.state.emailEmpty)}
+                        {this.userLogic.emailNotValid(this.state.emailNotValid)}
                     </label>
 
                     <div className="col-sm-12">
@@ -383,7 +290,7 @@ export default class Register extends React.Component {
                     <label className="control-label col-12"
                         htmlFor="dob">
                         Date of Birth &nbsp;
-                        {this.dobErrors()}
+                        {this.userLogic.dobNotValid(this.state.badDOB)}
                     </label>
 
                     <div className="col-sm-12">
