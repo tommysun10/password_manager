@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import UserService from '../Services/UserService';
 
 export default class Profile extends React.Component {
@@ -229,11 +230,13 @@ export default class Profile extends React.Component {
                 {/* Locations Tab */}
                 <div className="form-group row">
                     <div className="col-sm-12">
-                        <button className="btn btn-secondary btn-block"
-                            type="button"
-                        >
-                            View Login Locations
+                        <Link to='/user/locations'>
+                            <button className="btn btn-secondary btn-block"
+                                type="button"
+                            >
+                                View Login Locations
                         </button>
+                        </Link>
                     </div>
                 </div>
             </div>
