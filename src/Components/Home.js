@@ -1,5 +1,7 @@
 import React from 'react'
 import UserService from '../Services/UserService';
+import Welcome from './Welcome.js'
+import PasswordList from './PasswordList.js'
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -13,7 +15,7 @@ export default class Home extends React.Component {
 
     componentDidMount = () => {
         this.userService.isUserLoggedIn()
-            .then (user => {
+            .then(user => {
                 if (user) {
                     this.setState({
                         user: user
@@ -21,11 +23,21 @@ export default class Home extends React.Component {
                 }
             })
     }
-  render() {
-    return (
-      <div>
-        {this.state.user.username}
-      </div>
-    )
-  }
+
+    renderPage = () => {
+        if (this.state.user.username) {
+            return <PasswordList/>
+        } else {
+            return <Welcome/>
+        }
+    }
+
+
+    render() {
+        return (
+            <div>
+                {this.renderPage()}
+            </div>
+        )
+    }
 }
