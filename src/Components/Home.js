@@ -1,7 +1,7 @@
 import React from 'react'
 import UserService from '../Services/UserService';
 import Welcome from './Welcome.js'
-import PasswordList from './PasswordList.js'
+import WebsiteList from './WebsiteList.js'
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -26,7 +26,7 @@ export default class Home extends React.Component {
 
     renderPage = () => {
         if (this.state.user.username) {
-            return <PasswordList/>
+            return <WebsiteList/>
         } else {
             return <Welcome/>
         }

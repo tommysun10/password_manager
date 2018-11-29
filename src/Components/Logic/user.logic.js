@@ -158,4 +158,15 @@ export default class UserLogic {
         }
     }
 
+    websiteExists = (state) => {
+        if (state) {
+            return (
+                <span style={{color:'red'}}>
+                    <br/>
+                    This already exists!
+                </span>
+            )
+        }
+    }
+
 }

@@ -38,31 +38,31 @@ export default class Register extends React.Component {
 
     // Sets the field on change
     setUsername = (event) => {
-        this.setState({username: event.target.value})
+        this.setState({ username: event.target.value })
     }
 
     setPassword = (event) => {
-        this.setState({password: event.target.value})
+        this.setState({ password: event.target.value })
     }
 
     setPassword2 = (event) => {
-        this.setState({password2: event.target.value})
+        this.setState({ password2: event.target.value })
     }
 
     setFirstName = (event) => {
-        this.setState({firstName: event.target.value})
+        this.setState({ firstName: event.target.value })
     }
 
     setLastName = (event) => {
-        this.setState({lastName: event.target.value})
+        this.setState({ lastName: event.target.value })
     }
 
     setEmail = (event) => {
-        this.setState({email: event.target.value})
+        this.setState({ email: event.target.value })
     }
 
     setDOB = (event) => {
-        this.setState({dob: event.target.value})
+        this.setState({ dob: event.target.value })
     }
 
     reset = () => {
@@ -141,7 +141,7 @@ export default class Register extends React.Component {
             this.userService.findUserByUsername(u)
                 .then((response) => {
                     if (response !== null) {
-                        this.setState({userNameTaken: true})
+                        this.setState({ userNameTaken: true })
                         stop = true
                         return;
                     }
@@ -160,13 +160,13 @@ export default class Register extends React.Component {
                 lastName: l,
                 email: e,
                 dob: d,
-                locations:[],
-                passwords:[]
+                locations: {},
+                passwords: {}
             }
             // Create the user and redirect
-            this.userService.createUser(user)
+            return this.userService.createUser(user)
                 .then(user => {
-                    if (user.userName) {
+                    if (user.username) {
                         this.props.history.push('/profile')
                     }
                 })
