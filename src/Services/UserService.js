@@ -56,6 +56,7 @@ export default class UserService {
     updateUser = (user) => {
         return fetch(SERVER_URL + "/user/update", {
             method: "put",
+            credentials: "include",
             body: JSON.stringify(user),
             headers: {
                 "content-type": "application/json"
@@ -72,7 +73,8 @@ export default class UserService {
         })
     }
 
-    getCurrentUser = () => {
+    // Returns if a user is logged in
+    isUserLoggedIn = () => {
         return fetch(SERVER_URL + '/profile', {
             credentials: 'include'
         }
@@ -85,7 +87,8 @@ export default class UserService {
         })
     }
 
-    isUserLoggedIn = () => {
+    // Gets the current user
+    getCurrentUser = () => {
         return fetch(SERVER_URL + '/currentUser', {
             credentials: 'include'
         }

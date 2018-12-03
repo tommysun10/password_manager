@@ -166,9 +166,7 @@ export default class Register extends React.Component {
             // Create the user and redirect
             return this.userService.createUser(user)
                 .then(user => {
-                    if (user.username) {
-                        this.props.history.push('/profile')
-                    }
+                        return this.props.history.push('/profile')
                 })
         }
         return;

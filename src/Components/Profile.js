@@ -114,7 +114,6 @@ export default class Profile extends React.Component {
                 passwords: this.state.passwords
             }
 
-            // Create the user and redirect
             this.userService.updateUser(user)
                 .then(user => {
                     if (user) {

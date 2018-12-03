@@ -8,12 +8,7 @@ export default class PasswordList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: {
-                passwords:{
-                    'LoL':[],
-                    'Pass':[]
-                }
-            },
+            user: {},
             newWebsite: '',
             websiteExists: false
         }
@@ -27,23 +22,27 @@ export default class PasswordList extends React.Component {
         })
     }
 
+    remountUser = () => {
+        return this.userService.getCurrentUser()
+        .then(user => {
+            this.setState({ user: user })
+        })
+    }
+
     addWebsite = () => {
         this.reset()
         let u = this.state.user
 
         // This is a hashmap of website to array of user/pw combos
         let passwords = u.passwords
-        if (passwords.hasOwnProperty(this.state.newWebsite)) {
+        if (passwords != null && passwords.hasOwnProperty(this.state.newWebsite)) {
             return this.setState({ websiteExists: true })
         } else {
-            passwords[this.state.newWebsite] = {}
-            u.passwords = passwords
-            this.userService.updateUser(u)
-                .then(user => {
-                    this.setState({
-                        user: user
-                    })
-                })
+            passwords[this.state.newWebsite] = {};
+            u.passwords = passwords;
+            return this.userService.updateUser(u)
+                .then(() =>this.remountUser()
+                )
         }
     }
 
@@ -70,23 +69,21 @@ export default class PasswordList extends React.Component {
 
     renderWebsites = () => {
         if (this.state.user.passwords != null) {
-            let rows = Object.entries(this.state.user.passwords).map((website) => {
-                return (
-                    <WebsiteRow website={website} key={website[0]}
-                        delete={this.deleteWebsite} isActive={this.isActive}
-                        setActive={this.setActive} />
+            let rows = Object.entries(this.state.user.passwords)
+                .map((website) => {
+                    return (
+                        <WebsiteRow website={website} key={website[0]}
+                            delete={this.deleteWebsite} isActive={this.isActive}
+                            setActive={this.setActive} />
+                    )
+                }
                 )
-            }
-            )
             return (rows);
         }
     }
 
     componentDidMount = () => {
-        this.userService.getCurrentUser()
-            .then(user => {
-                this.setState({ user: user })
-            })
+        return this.remountUser();
     }
 
     reset = () => {
@@ -100,13 +97,15 @@ export default class PasswordList extends React.Component {
                     <input className="form-control"
                         placeholder="Name"
                         value={this.state.newWebsite}
-                        onChange={this.setNewWebsite} />
+                        onChange={this.setNewWebsite}
+                        value={this.state.newWebsite} />
                     <button className="btn btn-secondary"
                         onClick={this.addWebsite}>
                         Add
                     </button>
                     {this.userLogic.websiteExists(this.state.websiteExists)}
                 </div>
+                
                 <ul>
                     {this.renderWebsites()}
                 </ul>
