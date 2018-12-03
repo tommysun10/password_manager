@@ -7,18 +7,18 @@ export default class WebsiteRow extends React.Component {
   }
 
   setActive = () => {
-    this.props.setActive(this.props.website);
+    return this.props.setActive(this.props.website);
   }
 
   render() {
     return (
-        <div className={this.props.isActive(this.props.website)}
-          onClick={this.setActive}>
-          {this.props.website[0]}
-        <button onClick={this.delete} type="button" className="delete-btn">
-          Delete
+      <div className={this.props.isActive(this.props.website)}
+        onClick={this.setActive}>
+        {this.props.website[0]}
+        <button onClick={this.delete} className={`btn btn-link float-right`}>
+          <span aria-hidden="true">&#215;</span>
         </button>
       </div>
-      )
-    }
+    )
   }
+}

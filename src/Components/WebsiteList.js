@@ -10,7 +10,8 @@ export default class PasswordList extends React.Component {
         this.state = {
             user: {},
             newWebsite: '',
-            websiteExists: false
+            websiteExists: false,
+            activeWebsite: ''
         }
         this.userService = UserService.instance
         this.userLogic = UserLogic.instance
@@ -24,9 +25,9 @@ export default class PasswordList extends React.Component {
 
     remountUser = () => {
         return this.userService.getCurrentUser()
-        .then(user => {
-            this.setState({ user: user })
-        })
+            .then(user => {
+                this.setState({ user: user })
+            })
     }
 
     addWebsite = () => {
@@ -41,7 +42,7 @@ export default class PasswordList extends React.Component {
             passwords[this.state.newWebsite] = {};
             u.passwords = passwords;
             return this.userService.updateUser(u)
-                .then(() =>this.remountUser()
+                .then(() => this.remountUser()
                 )
         }
     }
@@ -50,14 +51,14 @@ export default class PasswordList extends React.Component {
         let u = this.state.user;
         const p = u.passwords
         let p2 = {}
-        
+
         // Filter out this website
         for (var key in p) {
             if (p.hasOwnProperty(key) && key !== website[0]) {
                 p2[key] = p[key]
             }
         }
-        
+
         u.passwords = p2;
 
         this.userService.updateUser(u)
@@ -65,11 +66,15 @@ export default class PasswordList extends React.Component {
     }
 
     isActive = (website) => {
-
+        if (website[0] === this.state.activeWebsite) {
+            return 'list-group-item active';
+        } else {
+            return 'list-group-item';
+        }
     }
 
     setActive = (website) => {
-
+        this.setState({ activeWebsite: website[0] });
     }
 
     renderWebsites = () => {
@@ -95,25 +100,35 @@ export default class PasswordList extends React.Component {
         this.setState({ websiteExists: false })
     }
 
+    // Removes the indent from natural UL 
+    style = {
+        padding: 0,
+        listStyleType: false
+    };
+
     render() {
         return (
             <div>
-                <div className="input-group col-4">
-                    <input className="form-control"
-                        placeholder="Name"
-                        value={this.state.newWebsite}
-                        onChange={this.setNewWebsite}
-                        value={this.state.newWebsite} />
-                    <button className="btn btn-secondary"
-                        onClick={this.addWebsite}>
-                        Add
+                <div className="col-4">
+                    <div className="input-group">
+                        <input className="form-control"
+                            placeholder="Name"
+                            value={this.state.newWebsite}
+                            onChange={this.setNewWebsite}
+                            value={this.state.newWebsite} />
+                        <button className="btn btn-secondary"
+                            onClick={this.addWebsite}>
+                            Add
                     </button>
-                    {this.userLogic.websiteExists(this.state.websiteExists)}
+                        {this.userLogic.websiteExists(this.state.websiteExists)}
+                    </div>
+
+                    <ul style={this.style}>
+                        {this.renderWebsites()}
+                    </ul>
                 </div>
-                
-                <ul>
-                    {this.renderWebsites()}
-                </ul>
+                <div className="col-8 float-right container">
+                </div>
             </div>
         )
     }
