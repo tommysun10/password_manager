@@ -48,15 +48,20 @@ export default class PasswordList extends React.Component {
 
     deleteWebsite = (website) => {
         let u = this.state.user;
-
-        delete u.passwords[website]
+        const p = u.passwords
+        let p2 = {}
+        
+        // Filter out this website
+        for (var key in p) {
+            if (p.hasOwnProperty(key) && key !== website[0]) {
+                p2[key] = p[key]
+            }
+        }
+        
+        u.passwords = p2;
 
         this.userService.updateUser(u)
-            .then(user => {
-                this.setState({
-                    user: user
-                })
-            })
+            .then(() => this.remountUser())
     }
 
     isActive = (website) => {
