@@ -4,6 +4,8 @@
   
   .website-container {
     border-right: 1px solid rgba(0,0,0,.1);
+    padding-left: 5%;
+    padding-right: 5%;
   }
   
   .add-website {
@@ -14,8 +16,21 @@
     display: flex;
   }
   
-  
+  .del-btn{
+    float: right;
+    padding-top: 0.1%;
+    padding-right: 0.1%;
+  }
   
   .add-passwords {
     margin-bottom: 20px;
+  }
+
+  .add-module{
+    border: 2px solid rgba(0,0,0,.1);
+  }
+
+  .right-side{
+    padding-left: 10%;
+    padding-right: 10%;
   }

@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom'
 import UserService from '../Services/UserService'
 import UserLogic from './Logic/user.logic';
 import WebsiteRow from './WebsiteRow';
+import WebsiteModule from './WebsiteModule'
 import '../Style/style.css'
 
 export default class PasswordList extends React.Component {
@@ -12,7 +13,7 @@ export default class PasswordList extends React.Component {
             user: {},
             newWebsite: '',
             websiteExists: false,
-            activeWebsite: ''
+            activeWebsite: []
         }
         this.userService = UserService.instance
         this.userLogic = UserLogic.instance
@@ -40,7 +41,7 @@ export default class PasswordList extends React.Component {
         if (passwords != null && passwords.hasOwnProperty(this.state.newWebsite)) {
             return this.setState({ websiteExists: true })
         } else {
-            passwords[this.state.newWebsite] = {};
+            passwords[this.state.newWebsite] = [];
             u.passwords = passwords;
             return this.userService.updateUser(u)
                 .then(() => this.remountUser()
@@ -67,7 +68,7 @@ export default class PasswordList extends React.Component {
     }
 
     isActive = (website) => {
-        if (website[0] === this.state.activeWebsite) {
+        if (website[0] === this.state.activeWebsite[0]) {
             return 'list-group-item active';
         } else {
             return 'list-group-item';
@@ -75,7 +76,7 @@ export default class PasswordList extends React.Component {
     }
 
     setActive = (website) => {
-        this.setState({ activeWebsite: website[0] });
+        this.setState({ activeWebsite: website });
     }
 
     renderWebsites = () => {
@@ -120,7 +121,7 @@ export default class PasswordList extends React.Component {
                         <button className="btn btn-secondary"
                             onClick={this.addWebsite}>
                             Add
-                    </button>
+                        </button>
                         {this.userLogic.websiteExists(this.state.websiteExists)}
                     </div>
 
@@ -129,7 +130,7 @@ export default class PasswordList extends React.Component {
                     </ul>
                 </div>
                 <div className="col-8 passwords">
-                yo
+                    <WebsiteModule website={this.state.activeWebsite}/>
                 </div>
             </div>
         )

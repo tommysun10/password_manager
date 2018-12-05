@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../Style/style.css'
 
 export default class WebsiteRow extends React.Component {
   delete = () => {
@@ -15,7 +16,7 @@ export default class WebsiteRow extends React.Component {
       <div className={this.props.isActive(this.props.website)}
         onClick={this.setActive}>
         {this.props.website[0]}
-        <button onClick={this.delete} className={`btn btn-link float-right`}>
+        <button onClick={this.delete} className="btn btn-link del-btn">
           <span aria-hidden="true">&#215;</span>
         </button>
       </div>
