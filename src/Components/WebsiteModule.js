@@ -41,18 +41,17 @@ export default class WebsiteModule extends React.Component {
 
         let website = this.props.website
         const key = website[0]
+
         let curUser = this.state.user
+        let passwords = curUser.passwords
 
-        console.log(website)
-        console.log(curUser)
+        passwords[key].push(newLogin);
 
-        website[1].push(newLogin)
-        console.log(curUser.passwords[key])
-        
+        curUser.passwords = passwords;
 
-        // this.userService.updateUser(curUser)
-        //     .then(() => 
-        //     this.remount())
+        this.userService.updateUser(curUser)
+            .then(() => 
+            this.remount())
     }
 
     componentDidMount = () => {
@@ -63,7 +62,11 @@ export default class WebsiteModule extends React.Component {
         this.userService.getCurrentUser()
             .then(user => {
                 this.setState({
-                    user: user
+                    user: user,
+                    username: '',
+                    password: '',
+                    email: '',
+                    comments: ''
                 })
             })
     }
@@ -87,6 +90,7 @@ export default class WebsiteModule extends React.Component {
                         <input type="text"
                             className="form-control"
                             placeholder="Username" 
+                            value={this.state.username}
                             onChange={this.setUsername}/>
                     </span>
 
@@ -95,6 +99,7 @@ export default class WebsiteModule extends React.Component {
                         <input type="text"
                             className="form-control"
                             placeholder="Password" 
+                            value={this.state.password}
                             onChange={this.setPassword}/>
                     </span>
 
@@ -103,26 +108,22 @@ export default class WebsiteModule extends React.Component {
                         <input type="text"
                             className="form-control"
                             placeholder="Email"
+                            value={this.state.email}
                             onChange={this.setEmail}/>
                     </span>
 
-                    {/* Notes */}
+                    {/* Comments */}
                     <span className="form-group">
                         <input type="text"
                             className="form-control"
                             placeholder="Comments"
+                            value={this.state.comments}
                             onChange={this.setComments}/>
                     </span>
 
                     <button className={`btn btn-secondary btn-block`}
                         onClick={this.addModule}>
                         Add
-                    </button>
-
-                    
-                    <button 
-                        onClick={this.test}>
-                        Test
                     </button>
 
                 </div>

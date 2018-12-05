@@ -28,7 +28,12 @@ export default class PasswordList extends React.Component {
     remountUser = () => {
         return this.userService.getCurrentUser()
             .then(user => {
-                this.setState({ user: user })
+                this.setState({ 
+                    user: user,
+                    newWebsite: '',
+                    websiteExists: false,
+                    activeWebsite: []
+                 })
             })
     }
 
