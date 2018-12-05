@@ -1,0 +1,21 @@
+.website-editor {
+    display: flex;
+  }
+  
+  .website-container {
+    border-right: 1px solid rgba(0,0,0,.1);
+  }
+  
+  .add-website {
+    margin-bottom: 20px;
+  }
+
+  .passwords {
+    display: flex;
+  }
+  
+  
+  
+  .add-passwords {
+    margin-bottom: 20px;
+  }

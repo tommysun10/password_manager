@@ -73,19 +73,19 @@ export default class UserService {
         })
     }
 
-    // Returns if a user is logged in
-    isUserLoggedIn = () => {
-        return fetch(SERVER_URL + '/profile', {
-            credentials: 'include'
-        }
-        ).then(response => {
-            if (response.status === 200) {
-                return response.json()
-            } else {
-                return null
-            }
-        })
-    }
+    // // Returns if a user is logged in
+    // isUserLoggedIn = () => {
+    //     return fetch(SERVER_URL + '/profile', {
+    //         credentials: 'include'
+    //     }
+    //     ).then(response => {
+    //         if (response.status === 200) {
+    //             return response.json()
+    //         } else {
+    //             return null
+    //         }
+    //     })
+    // }
 
     // Gets the current user
     getCurrentUser = () => {

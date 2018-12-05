@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom'
 import UserService from '../Services/UserService'
 import UserLogic from './Logic/user.logic';
 import WebsiteRow from './WebsiteRow';
+import '../Style/style.css'
 
 export default class PasswordList extends React.Component {
     constructor(props) {
@@ -108,9 +109,9 @@ export default class PasswordList extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="col-4">
-                    <div className="input-group">
+            <div className="website-editor">
+                <div className="website-container col-4">
+                    <div className="add-website input-group">
                         <input className="form-control"
                             placeholder="Name"
                             value={this.state.newWebsite}
@@ -127,7 +128,8 @@ export default class PasswordList extends React.Component {
                         {this.renderWebsites()}
                     </ul>
                 </div>
-                <div className="col-8 float-right container">
+                <div className="col-8 passwords">
+                yo
                 </div>
             </div>
         )

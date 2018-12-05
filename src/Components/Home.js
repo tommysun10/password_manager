@@ -14,7 +14,7 @@ export default class Home extends React.Component {
     }
 
     componentDidMount = () => {
-        this.userService.isUserLoggedIn()
+        this.userService.getCurrentUser()
             .then(user => {
                 if (user) {
                     this.setState({
