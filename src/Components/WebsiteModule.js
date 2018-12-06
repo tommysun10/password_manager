@@ -70,8 +70,7 @@ export default class WebsiteModule extends React.Component {
         curUser.passwords = passwords;
 
         this.userService.updateUser(curUser)
-            .then(() =>
-                this.remount())
+            .then(user => this.setState({user: user}))
     }
 
     editModule = () => {
@@ -95,8 +94,17 @@ export default class WebsiteModule extends React.Component {
                 
     }
 
-    deleteModule = () => {
+    deleteModule = (index) => {
+        let website = this.props.website
+        const key = website[0]
 
+        let curUser = this.state.user
+        let passwords = curUser.passwords
+        let websiteReal = passwords[key]
+        websiteReal.splice(index,1)
+
+        this.userService.updateUser(curUser)
+            .then(() => this.remount())
     }
 
     setEdit = (module) => {
@@ -181,7 +189,6 @@ export default class WebsiteModule extends React.Component {
                 </div>
             )
         })
-
         return rows
     }
 
