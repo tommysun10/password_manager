@@ -13,7 +13,7 @@ export default class PasswordList extends React.Component {
             user: {},
             newWebsite: '',
             websiteExists: false,
-            activeWebsite: []
+            activeWebsite: ''
         }
         this.userService = UserService.instance
         this.userLogic = UserLogic.instance
@@ -99,6 +99,14 @@ export default class PasswordList extends React.Component {
         }
     }
 
+    renderModule = () => {
+        if (this.state.activeWebsite != '') {
+            return <WebsiteModule website={this.state.activeWebsite}
+                        key={this.state.activeWebsite[0]}
+                        value={this.state.activeWebsite[1]}/>
+        }
+    }
+
     componentDidMount = () => {
         return this.remountUser();
     }
@@ -135,7 +143,7 @@ export default class PasswordList extends React.Component {
                     </ul>
                 </div>
                 <div className="col-8 passwords">
-                    <WebsiteModule website={this.state.activeWebsite}/>
+                    {this.renderModule()}
                 </div>
             </div>
         )

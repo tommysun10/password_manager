@@ -30,7 +30,16 @@
     border: 2px solid rgba(0,0,0,.1);
   }
 
+  .each-module{
+    margin-top: 5%;
+    border: 2px solid rgba(0,0,0,0.1);
+  }
+
   .right-side{
     padding-left: 10%;
     padding-right: 10%;
+  }
+
+  .d-block{
+    margin-top: 0px !important;
   }

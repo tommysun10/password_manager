@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import '../Style/style.css'
 
 export default class WebsiteRow extends React.Component {
