@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import UserService from '../Services/UserService'
+import UserLogic from './Logic/user.logic';
 
 // TODO
 // Implement user services for login validation
@@ -18,6 +19,7 @@ export default class Login extends React.Component {
             badCreds: false
         };
         this.userService = UserService.instance;
+        this.userLogic = UserLogic.instance;
     }
 
     // Updates state for user login forms
@@ -66,32 +68,6 @@ export default class Login extends React.Component {
             })
     }
 
-    checkUsername = () => {
-        if (this.state.usernameEmpty) {
-            return (
-                <span style={{ color: 'red' }}><br />Please enter a username</span>
-            )
-        }
-    }
-
-    //Puts text to notify the user of the acceptability of their password
-    checkPassword = () => {
-        if (this.state.passwordEmpty) {
-            return (
-                <span style={{ color: 'red' }}><br />Please enter a password</span>
-            )
-        }
-    }
-
-    // Puts text to notifiy the user of bad credentials
-    badCreds = () => {
-        if (this.state.badCreds) {
-            return (
-                <span style={{ color: 'red' }}><br /> Bad username or password </span>
-            )
-        }
-    }
-
     render() {
         return (
             <div className="container col-md-6 col-md-offset-3" >
@@ -102,7 +78,7 @@ export default class Login extends React.Component {
                     <label className="control-label col-12"
                         htmlFor="username">
                         Username &nbsp;
-                        {this.checkUsername()}
+                        {this.userLogic.usernameEmpty(this.state.usernameEmpty)}
                     </label>
 
                     <div className="col-sm-12">
@@ -119,7 +95,7 @@ export default class Login extends React.Component {
                     <label className="control-label col-12"
                         htmlFor="password">
                         Password &nbsp;
-                        {this.checkPassword()}
+                        {this.userLogic.passwordEmpty(this.state.passwordEmpty)}
                     </label>
 
                     <div className="col-sm-12">
@@ -139,7 +115,7 @@ export default class Login extends React.Component {
                             onClick={this.login}>
                             Sign In
                         </button>
-                        {this.badCreds()}
+                        {this.userLogic.badCreds(this.state.badCreds)}
                     </div>
                 </div>
 
