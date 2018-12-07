@@ -1,9 +1,7 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
 import UserService from '../Services/UserService'
 import UserLogic from './Logic/user.logic';
 import WebsiteRow from './WebsiteRow';
-import WebsiteModule from './WebsiteModule'
 import '../Style/style.css'
 
 export default class PasswordList extends React.Component {
@@ -11,9 +9,15 @@ export default class PasswordList extends React.Component {
         super(props);
         this.state = {
             user: {},
+            username: '',
+            password: '',
+            email: '',
+            comments: '',
             newWebsite: '',
             websiteExists: false,
-            activeWebsite: ''
+            activeWebsite: '',
+            edit: false,
+            setEdit: ''
         }
         this.userService = UserService.instance
         this.userLogic = UserLogic.instance
@@ -25,6 +29,22 @@ export default class PasswordList extends React.Component {
         })
     }
 
+    setUsername = (event) => {
+        this.setState({ username: event.target.value })
+    }
+
+    setPassword = (event) => {
+        this.setState({ password: event.target.value })
+    }
+
+    setEmail = (event) => {
+        this.setState({ email: event.target.value })
+    }
+
+    setComments = (event) => {
+        this.setState({ comments: event.target.value })
+    }
+
     remountUser = () => {
         return this.userService.getCurrentUser()
             .then(user => {
@@ -32,7 +52,13 @@ export default class PasswordList extends React.Component {
                     user: user,
                     newWebsite: '',
                     websiteExists: false,
-                    activeWebsite: []
+                    activeWebsite: [],
+                    username: '',
+                    password: '',
+                    email: '',
+                    comments: '',
+                    edit: false,
+                    setEdit: ''
                  })
             })
     }
@@ -84,6 +110,92 @@ export default class PasswordList extends React.Component {
         this.setState({ activeWebsite: website });
     }
 
+    button = () => {
+        if (this.state.edit) {
+            return (
+                <button className={`btn btn-success btn-block`}
+                    onClick={this.editModule}>
+                    Update
+                </button>
+            )
+        } else {
+            return (
+                <button className={`btn btn-secondary btn-block`}
+                    onClick={this.addModule}>
+                    Add
+            </button>
+            )
+        }
+    }
+
+    addModule = () => {
+        const newLogin = {
+            username: this.state.username,
+            password: this.state.password,
+            email: this.state.email,
+            comments: this.state.comments
+        }
+
+        let website = this.state.activeWebsite
+        const key = website[0]
+
+        let curUser = this.state.user
+        let passwords = curUser.passwords
+
+        passwords[key].push(newLogin);
+
+        curUser.passwords = passwords;
+
+        this.userService.updateUser(curUser)
+            .then(() => this.remountUser())
+    }
+
+    editModule = () => {
+        const newLogin = {
+            username: this.state.username,
+            password: this.state.password,
+            email: this.state.email,
+            comments: this.state.comments
+        }
+
+        let website = this.state.activeWebsite
+        const key = website[0]
+
+        let curUser = this.state.user
+        let passwords = curUser.passwords
+        let websiteReal = passwords[key]
+        websiteReal[this.state.setEdit] = newLogin;
+
+        this.userService.updateUser(curUser)
+            .then(() => this.remountUser())    
+    }
+
+    deleteModule = (index) => {
+        let website = this.state.activeWebsite
+        const key = website[0]
+
+        let curUser = this.state.user
+        let passwords = curUser.passwords
+        let websiteReal = passwords[key]
+        websiteReal.splice(index,1)
+
+        this.userService.updateUser(curUser)
+            .then(() => this.remountUser())
+    }
+
+    setEdit = (module) => {
+        const passwords = this.state.activeWebsite[1]
+        const curMod = passwords[module]
+        this.setState({
+            setEdit:module,
+            username:curMod.username,
+            password:curMod.password,
+            email:curMod.email,
+            comments:curMod.comments,
+            edit:true
+        })
+    }
+
     renderWebsites = () => {
         if (this.state.user.passwords != null) {
             let rows = Object.entries(this.state.user.passwords)
@@ -101,10 +213,107 @@ export default class PasswordList extends React.Component {
 
     renderModule = () => {
         if (this.state.activeWebsite != '') {
-            return <WebsiteModule website={this.state.activeWebsite}
-                        key={this.state.activeWebsite[0]}
-                        value={this.state.activeWebsite[1]}/>
+            return (
+                <div className="container right-side">
+                    <div className="add-module">
+    
+                        {/* Username */}
+                        <span className="form-group">
+                            <input type="text"
+                                className="form-control"
+                                placeholder="Username"
+                                value={this.state.username}
+                                onChange={this.setUsername} />
+                        </span>
+    
+                        {/* Password */}
+                        <span className="form-group">
+                            <input type="text"
+                                className="form-control"
+                                placeholder="Password"
+                                value={this.state.password}
+                                onChange={this.setPassword} />
+                        </span>
+    
+                        {/* Email */}
+                        <span className="form-group">
+                            <input type="text"
+                                className="form-control"
+                                placeholder="Email"
+                                value={this.state.email}
+                                onChange={this.setEmail} />
+                        </span>
+    
+                        {/* Comments */}
+                        <span className="form-group">
+                            <input type="text"
+                                className="form-control"
+                                placeholder="Comments"
+                                value={this.state.comments}
+                                onChange={this.setComments} />
+                        </span>
+                        {this.button()}
+                    </div>
+    
+                    <div className="modules">
+                        {this.renderModules()}
+                    </div>
+                </div>
+            )
         }
+    }
+
+    renderModules = () => {
+        let rows = this.state.activeWebsite[1].map((module, i) => {
+            return (
+                <div className="each-module" key={i}>
+                    {/* Username */}
+                    < span className="form-group" >
+                        <input type="text"
+                            className="form-control"
+                            placeholder="Username"
+                            value={module.username}
+                            readOnly />
+                    </span >
+
+                    {/* Password */}
+                    < span className="form-group" >
+                        <input type="text"
+                            className="form-control"
+                            placeholder="Password"
+                            value={module.password} 
+                            readOnly/>
+                    </span >
+
+                    {/* Email */}
+                    < span className="form-group" >
+                        <input type="text"
+                            className="form-control"
+                            placeholder="Email"
+                            value={module.email}
+                            readOnly/>
+                    </span >
+
+                    {/* Comments */}
+                    < span className="form-group" >
+                        <input type="text"
+                            className="form-control"
+                            placeholder="Comments"
+                            value={module.comments}
+                            readOnly/>
+                    </span >
+                    <button className={`btn btn-primary btn-block`}
+                    onClick={() => this.setEdit(i)}>
+                        Edit
+                    </button>
+                    <button className={`btn btn-danger btn-block d-block`}
+                    onClick={() => this.deleteModule(i)}>
+                        Delete
+                    </button>
+                </div>
+            )
+        })
+        return rows
     }
 
     componentDidMount = () => {
