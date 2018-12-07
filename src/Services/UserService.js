@@ -69,7 +69,10 @@ export default class UserService {
     logout = () => {
         return fetch(SERVER_URL + "/logout", {
             method: "POST",
-            credentials: "include"
+            credentials: "include",
+            headers: {
+				'Content-type': 'application/json'
+			},
         })
     }
 
