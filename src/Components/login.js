@@ -61,11 +61,29 @@ export default class Login extends React.Component {
         return this.userService.login(this.state.user)
             .then(user => {
                 if (user !== null) {
+                    this.setLocation(user);
+                    window.location.reload()
                     this.props.history.push('/profile')
                 } else {
                     this.setState({ badCreds: true })
                 }
             })
+    }
+
+    setLocation = (user) => {
+        this.setState({user:user})
+        navigator.geolocation.getCurrentPosition(this.curretPostion);
+    }
+
+    curretPostion = (position) => {
+        const u = this.state.user;
+        u.locations.old.lat = u.locations.new.lat 
+        u.locations.old.long = u.locations.new.long
+        u.locations.new.lat = position.coords.latitude
+        u.locations.new.long = position.coords.longitude
+
+        this.userService.updateUser(u) 
+            .then(user => this.setState({user:user}))
     }
 
     render() {

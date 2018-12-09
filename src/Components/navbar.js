@@ -12,12 +12,8 @@ export default class NavBar extends React.Component {
     }
 
     logout = () => {
-        this.userService.logout()
-            .then(response => {
-                if (response) {
-                    this.setState({user: null})
-                }
-            }).then(() => window.location.reload())
+        this.userService.logout();
+        window.location.reload();
     }
 
     navbar = () => {

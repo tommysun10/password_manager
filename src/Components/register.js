@@ -14,6 +14,7 @@ export default class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            user: {},
             username: '',
             password: '',
             password2: '',
@@ -31,6 +32,8 @@ export default class Register extends React.Component {
             emailEmpty: false,
             emailNotValid: false,
             badDOB: false,
+            lat: '',
+            long: ''
         }
         this.userService = UserService.instance;
         this.userLogic = UserLogic.instance;
@@ -153,23 +156,45 @@ export default class Register extends React.Component {
         // emailNotValid: false,
 
         if (!stop) {
-            const user = {
+            navigator.geolocation.getCurrentPosition(this.curretPostion);
+
+            let user = {
                 username: u,
                 password: p1,
                 firstName: f,
                 lastName: l,
                 email: e,
                 dob: d,
-                locations: {},
+                locations: {
+                    new: {
+                        lat: this.state.lat,
+                        long: this.state.long
+                    },
+                    old: {},
+                    setting: {}
+                },
                 passwords: {}
             }
+
+            user.locations.new.lat = this.state.lat;
+            user.locations.new.long = this.state.long;
+
+            console.log(user)
+
             // Create the user and redirect
             return this.userService.createUser(user)
                 .then(user => {
-                        return this.props.history.push('/profile')
+                    // window.location.reload()
+                    // this.props.history.push('/profile')
                 })
         }
         return;
+    }
+    curretPostion = (position) => {
+        this.setState({
+            lat: position.coords.latitude,
+            long: position.coords.longitude
+        })
     }
 
     render() {
