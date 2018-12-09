@@ -156,8 +156,6 @@ export default class Register extends React.Component {
         // emailNotValid: false,
 
         if (!stop) {
-            navigator.geolocation.getCurrentPosition(this.curretPostion);
-
             let user = {
                 username: u,
                 password: p1,
@@ -165,38 +163,18 @@ export default class Register extends React.Component {
                 lastName: l,
                 email: e,
                 dob: d,
-                locations: {
-                    new: {
-                        lat: this.state.lat,
-                        long: this.state.long
-                    },
-                    old: {},
-                    setting: {}
-                },
+                locations: {},
                 passwords: {}
             }
 
-            user.locations.new.lat = this.state.lat;
-            user.locations.new.long = this.state.long;
-
-            console.log(user)
-
             // Create the user and redirect
             return this.userService.createUser(user)
-                .then(user => {
-                    // window.location.reload()
-                    // this.props.history.push('/profile')
+                .then(response => {
+                    window.location.reload()
+                    this.props.history.push('/profile')
                 })
         }
         return;
-    }
-
-    // Sets the current position of the user
-    curretPostion = (position) => {
-        this.setState({
-            lat: position.coords.latitude,
-            long: position.coords.longitude
-        })
     }
 
     render() {

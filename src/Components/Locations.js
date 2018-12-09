@@ -31,14 +31,30 @@ export default class Locations extends React.Component {
 
     // Saves settings on button click
     setSettings = () => {
-        console.log(this.state.user)
+        const u = this.state.user;
+        u.locations.lat = this.state.latitude
+        u.locations.long = this.state.longitude
+        u.locations.diameter = this.state.diameter
+
+        this.userService.updateUser(u)
+            .then(user => {
+                this.setState({
+                    user:user
+                })
+                alert("Saved!")
+            })
     }
 
     // Mounts users
     componentDidMount = () => {
         this.userService.getCurrentUser()
             .then(user => {
-                this.setState({ user: user })
+                this.setState({ 
+                    user: user,
+                    latitude: user.locations.lat,
+                    longitude: user.locations.long,
+                    diamater: user.locations.diameter
+                 })
             })
     }
 
@@ -59,7 +75,8 @@ export default class Locations extends React.Component {
                             className="form-control"
                             id="latitude"
                             onChange={this.setLatitude}
-                            placeholder="Latitude" />
+                            placeholder="Latitude"
+                            value={this.state.latitude}/>
                     </div>
                 </div>
 
@@ -75,7 +92,8 @@ export default class Locations extends React.Component {
                             className="form-control"
                             id="longitude"
                             onChange={this.setLongitude}
-                            placeholder="Longitude" />
+                            placeholder="Longitude"
+                            value={this.state.longitude}/>
                     </div>
                 </div>
 
@@ -91,7 +109,8 @@ export default class Locations extends React.Component {
                             className="form-control"
                             id="Diameter"
                             onChange={this.setDiameter}
-                            placeholder="Diameter" />
+                            placeholder="Diameter"
+                            value={this.state.diameter} />
                     </div>
                 </div>
 
