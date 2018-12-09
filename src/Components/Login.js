@@ -15,7 +15,10 @@ export default class Login extends React.Component {
             },
             usernameEmpty: false,
             passwordEmpty: false,
-            badCreds: false
+            badCreds: false,
+            long: '',
+            lat: '',
+            validLocation: false
         };
         this.userService = UserService.instance;
         this.userLogic = UserLogic.instance;
@@ -60,9 +63,11 @@ export default class Login extends React.Component {
         return this.userService.login(this.state.user)
             .then(user => {
                 if (user !== null) {
-                    this.setLocation(user);
-                    window.location.reload()
-                    this.props.history.push('/profile')
+                    this.compareLocation(user);
+                    if (this.state.validLocation) {
+                        window.location.reload()
+                        this.props.history.push('/profile')
+                    }
                 } else {
                     this.setState({ badCreds: true })
                 }
@@ -70,21 +75,41 @@ export default class Login extends React.Component {
     }
 
     // Sets the user's location when they log in
-    setLocation = (user) => {
-        this.setState({user:user})
+    compareLocation = (user) => {
         navigator.geolocation.getCurrentPosition(this.curretPostion);
+        if (user.locations.lat && user.locations.long) {
+            const lat1 = user.locations.lat
+            const lat2 = this.state.lat
+            const lon1 = user.locations.long
+            const lon2 = this.state.long
+
+            var φ1 = lat1.toRadians();
+            var φ2 = lat2.toRadians();
+            var Δφ = (lat2 - lat1).toRadians();
+            var Δλ = (lon2 - lon1).toRadians();
+            var R = 6371
+
+            var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            var d = R * c;
+
+            if (d <= user.locations.radius) {
+                return this.setState({validLocation: true})
+            }
+        } else {
+            return this.setState({validLocation: true})
+        }
     }
 
     // Modifies current location and previous location
     curretPostion = (position) => {
-        const u = this.state.user;
-        u.locations.old.lat = u.locations.new.lat 
-        u.locations.old.long = u.locations.new.long
-        u.locations.new.lat = position.coords.latitude
-        u.locations.new.long = position.coords.longitude
-
-        this.userService.updateUser(u) 
-            .then(user => this.setState({user:user}))
+        this.setState({
+            lat: position.coords.latitude,
+            long: position.coords.longitude
+        })
     }
 
 
