@@ -1,6 +1,7 @@
 let _singleton = Symbol();
 
-const SERVER_URL = 'http://localhost:4000/api';
+// const SERVER_URL = 'http://localhost:4000/api';
+const SERVER_URL = 'https://password-manager-server.herokuapp.com/api';
 
 // All API calls are abstract here
 export default class UserService {
