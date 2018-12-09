@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import UserService from '../Services/UserService';
 
+// The NavBar component
+// Shows on all pages
 export default class NavBar extends React.Component {
     constructor(props) {
         super(props)
@@ -11,11 +13,15 @@ export default class NavBar extends React.Component {
         this.userService = UserService.instance;
     }
 
+    // Logs the user out
     logout = () => {
         this.userService.logout();
         window.location.reload();
     }
 
+    // Dynamically sets the links on the navbar
+    // If a user is logged in, show profile and logout
+    // If a user is not logged in, show login and register
     navbar = () => {
         if (this.state.user) {
             return (
@@ -46,11 +52,13 @@ export default class NavBar extends React.Component {
         }
     }
 
+    // Mounts the user
     componentDidMount = () => {
         this.userService.getCurrentUser()
             .then(user => this.setState({ user: user }))
     }
 
+    
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">

@@ -5,10 +5,9 @@ import UserLogic from './Logic/user.logic';
 
 // TODO
 // Check username for existing
-// Create the user
-
 // Additional -> Confirm email is valid
 
+// Allows a user to create a user
 export default class Register extends React.Component {
 
     constructor(props) {
@@ -68,6 +67,7 @@ export default class Register extends React.Component {
         this.setState({ dob: event.target.value })
     }
 
+    // Resets
     reset = () => {
         this.setState({
             usernameEmpty: false,
@@ -138,8 +138,8 @@ export default class Register extends React.Component {
             stop = true
         }
 
-        // // TODO check if username taken
-        // // userNameTaken: false,
+        // TODO check if username taken
+        // userNameTaken: false,
         if (u.length > 0) {
             this.userService.findUserByUsername(u)
                 .then((response) => {
@@ -190,6 +190,8 @@ export default class Register extends React.Component {
         }
         return;
     }
+
+    // Sets the current position of the user
     curretPostion = (position) => {
         this.setState({
             lat: position.coords.latitude,

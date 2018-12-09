@@ -1,6 +1,8 @@
 import React from 'react';
 import '../Style/style.css'
 
+
+// Renders each row on websites
 export default class WebsiteRow extends React.Component {
   delete = () => {
     this.props.delete(this.props.website);

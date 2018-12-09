@@ -4,6 +4,9 @@ import UserLogic from './Logic/user.logic';
 import WebsiteRow from './WebsiteRow';
 import '../Style/style.css'
 
+// Master class for rendering the home page when a user is logged in
+// Renders websites on the left side
+// Renders all saved information on the right side
 export default class PasswordList extends React.Component {
     constructor(props) {
         super(props);
@@ -23,6 +26,7 @@ export default class PasswordList extends React.Component {
         this.userLogic = UserLogic.instance
     }
 
+    //Setters
     setNewWebsite = (event) => {
         this.setState({
             newWebsite: event.target.value
@@ -45,6 +49,7 @@ export default class PasswordList extends React.Component {
         this.setState({ comments: event.target.value })
     }
 
+    // Reset method but for remounting
     remountUser = () => {
         return this.userService.getCurrentUser()
             .then(user => {
@@ -63,6 +68,7 @@ export default class PasswordList extends React.Component {
             })
     }
 
+    // Adds a website
     addWebsite = () => {
         this.reset()
         let u = this.state.user
@@ -80,6 +86,7 @@ export default class PasswordList extends React.Component {
         }
     }
 
+    // deletes a website
     deleteWebsite = (website) => {
         let u = this.state.user;
         const p = u.passwords
@@ -98,6 +105,7 @@ export default class PasswordList extends React.Component {
             .then(() => this.remountUser())
     }
 
+    // Determines if the clicked website is the current one
     isActive = (website) => {
         if (website[0] === this.state.activeWebsite[0]) {
             return 'list-group-item active';
@@ -110,6 +118,7 @@ export default class PasswordList extends React.Component {
         this.setState({ activeWebsite: website });
     }
 
+    // Button that adds or updates a saved module
     button = () => {
         if (this.state.edit) {
             return (
@@ -128,6 +137,7 @@ export default class PasswordList extends React.Component {
         }
     }
 
+    // Adds module (username/password combo)
     addModule = () => {
         const newLogin = {
             username: this.state.username,
@@ -150,6 +160,7 @@ export default class PasswordList extends React.Component {
             .then(() => this.remountUser())
     }
 
+    // Edits the existing module
     editModule = () => {
         const newLogin = {
             username: this.state.username,
@@ -170,6 +181,7 @@ export default class PasswordList extends React.Component {
             .then(() => this.remountUser())    
     }
 
+    // Deletes the Module
     deleteModule = (index) => {
         let website = this.state.activeWebsite
         const key = website[0]
@@ -183,6 +195,7 @@ export default class PasswordList extends React.Component {
             .then(() => this.remountUser())
     }
 
+    // Saves the edit
     setEdit = (module) => {
         const passwords = this.state.activeWebsite[1]
         const curMod = passwords[module]
@@ -196,6 +209,7 @@ export default class PasswordList extends React.Component {
         })
     }
 
+    // Renders the websites (left side)
     renderWebsites = () => {
         if (this.state.user.passwords != null) {
             let rows = Object.entries(this.state.user.passwords)
@@ -211,6 +225,7 @@ export default class PasswordList extends React.Component {
         }
     }
 
+    // Renders the adding module
     renderModule = () => {
         if (this.state.activeWebsite != '') {
             return (
@@ -263,6 +278,7 @@ export default class PasswordList extends React.Component {
         }
     }
 
+    // Renders all saved modules
     renderModules = () => {
         let rows = this.state.activeWebsite[1].map((module, i) => {
             return (
@@ -316,10 +332,12 @@ export default class PasswordList extends React.Component {
         return rows
     }
 
+    // Mounts the user on page load
     componentDidMount = () => {
         return this.remountUser();
     }
 
+    // Reset on mount
     reset = () => {
         this.setState({ websiteExists: false })
     }

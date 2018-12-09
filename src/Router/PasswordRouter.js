@@ -6,6 +6,7 @@ import Profile from '../Components/Profile'
 import Locations from '../Components/Locations'
 import Home from '../Components/Home'
 
+// All Routes (allows the use of links to load pages)
 export default class PasswordRouter extends React.Component {
     render() {
         return (

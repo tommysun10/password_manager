@@ -1,6 +1,9 @@
 import React from 'react'
 import UserService from '../Services/UserService'
 
+// Renders the Locations component
+// Accessible by the profiles page
+// url is at /locations
 export default class Locations extends React.Component {
     constructor(props) {
         super(props);
@@ -13,6 +16,7 @@ export default class Locations extends React.Component {
         this.userService = UserService.instance;
     }
 
+    // Setters for the fields
     setLatitude = (event) => {
         this.setState({ latitude: event.target.value })
     }
@@ -25,15 +29,17 @@ export default class Locations extends React.Component {
         this.setState({ diameter: event.target.value })
     }
 
+    // Saves settings on button click
+    setSettings = () => {
+        console.log(this.state.user)
+    }
+
+    // Mounts users
     componentDidMount = () => {
         this.userService.getCurrentUser()
             .then(user => {
                 this.setState({ user: user })
             })
-    }
-
-    setSettings = () => {
-        console.log(this.state.user)
     }
 
     render() {

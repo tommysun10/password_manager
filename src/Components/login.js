@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom'
 import UserService from '../Services/UserService'
 import UserLogic from './Logic/user.logic';
 
-// TODO
-// Implement user services for login validation
-//      - Implement session
+// Login component
+// on /login
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -70,11 +69,13 @@ export default class Login extends React.Component {
             })
     }
 
+    // Sets the user's location when they log in
     setLocation = (user) => {
         this.setState({user:user})
         navigator.geolocation.getCurrentPosition(this.curretPostion);
     }
 
+    // Modifies current location and previous location
     curretPostion = (position) => {
         const u = this.state.user;
         u.locations.old.lat = u.locations.new.lat 
@@ -85,6 +86,7 @@ export default class Login extends React.Component {
         this.userService.updateUser(u) 
             .then(user => this.setState({user:user}))
     }
+
 
     render() {
         return (

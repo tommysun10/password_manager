@@ -1,7 +1,8 @@
 import React from 'react'
 let _singleton = Symbol();
 
-
+// Applys JSX Errors based on the state 
+// Abstracts out errors between multiple components
 export default class UserLogic {
     constructor(singletonToken) {
         if (_singleton !== singletonToken) {
@@ -158,6 +159,7 @@ export default class UserLogic {
         }
     }
 
+    // Returns JSX to show a website already exists (home page)
     websiteExists = (state) => {
         if (state) {
             return (

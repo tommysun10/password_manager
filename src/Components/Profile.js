@@ -6,6 +6,8 @@ import UserLogic from './Logic/user.logic';
 //TODO 
 //Validate email
 
+// Profile Component
+// Allows a user to view and save their profile
 export default class Profile extends React.Component {
     constructor(props) {
         super(props);
@@ -34,6 +36,32 @@ export default class Profile extends React.Component {
         this.userLogic = UserLogic.instance;
     }
 
+    // Setters
+    setPassword = (event) => {
+        this.setState({ password: event.target.value })
+    }
+
+    setPassword2 = (event) => {
+        this.setState({ password2: event.target.value })
+    }
+
+    setFirstName = (event) => {
+        this.setState({ firstName: event.target.value })
+    }
+
+    setLastName = (event) => {
+        this.setState({ lastName: event.target.value })
+    }
+
+    setEmail = (event) => {
+        this.setState({ email: event.target.value })
+    }
+
+    setDOB = (event) => {
+        this.setState({ dob: event.target.value })
+    }
+
+    // Resets all the fields
     reset = () => {
         this.setState(
             {
@@ -50,6 +78,7 @@ export default class Profile extends React.Component {
         )
     }
 
+    // Updates the users
     update = () => {
         this.reset()
         const u = this.state.username
@@ -118,37 +147,14 @@ export default class Profile extends React.Component {
                 .then(user => {
                     if (user) {
                         this.setState({ success: true })
-                        this.setState({firstNameReadOnly: f})
+                        this.setState({ firstNameReadOnly: f })
                     }
                 })
         }
         return;
     }
 
-    setPassword = (event) => {
-        this.setState({ password: event.target.value })
-    }
-
-    setPassword2 = (event) => {
-        this.setState({ password2: event.target.value })
-    }
-
-    setFirstName = (event) => {
-        this.setState({ firstName: event.target.value })
-    }
-
-    setLastName = (event) => {
-        this.setState({ lastName: event.target.value })
-    }
-
-    setEmail = (event) => {
-        this.setState({ email: event.target.value })
-    }
-
-    setDOB = (event) => {
-        this.setState({ dob: event.target.value })
-    }
-
+    // Mounts the user
     componentDidMount = () => {
 
         this.userService.getCurrentUser()

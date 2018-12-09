@@ -3,6 +3,7 @@ import UserService from '../Services/UserService';
 import Welcome from './Welcome.js'
 import WebsiteList from './WebsiteList.js'
 
+// The Home Page that renders on default url (/)
 export default class Home extends React.Component {
     constructor(props) {
         super(props)
@@ -13,6 +14,7 @@ export default class Home extends React.Component {
         this.userService = UserService.instance;
     }
 
+    // Loads user on page load
     componentDidMount = () => {
         this.userService.getCurrentUser()
             .then(user => {
@@ -24,6 +26,8 @@ export default class Home extends React.Component {
             })
     }
 
+    // Dynamically determines if a user is logged in
+    // renders the correct page
     renderPage = () => {
         if (this.state.user.username) {
             return <WebsiteList/>
