@@ -83,10 +83,10 @@ export default class Login extends React.Component {
             const lon1 = user.locations.long
             const lon2 = this.state.long
 
-            var φ1 = lat1.toRadians();
-            var φ2 = lat2.toRadians();
-            var Δφ = (lat2 - lat1).toRadians();
-            var Δλ = (lon2 - lon1).toRadians();
+            var φ1 = lat1 * Math.PI / 180;
+            var φ2 = lat2 * Math.PI / 180;
+            var Δφ = (lat2 - lat1) * Math.PI / 180;
+            var Δλ = (lon2 - lon1) * Math.PI / 180;
             var R = 6371
 
             var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
