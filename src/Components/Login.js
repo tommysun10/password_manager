@@ -63,9 +63,9 @@ export default class Login extends React.Component {
         return this.userService.login(this.state.user)
             .then(user => {
                 if (user !== null) {
-                    this.compareLocation(user);
-                        window.location.reload()
-                        this.props.history.push('/profile')
+                    //this.compareLocation(user);
+                    window.location.reload()
+                    this.props.history.push('/profile')
                 } else {
                     this.setState({ badCreds: true })
                 }
